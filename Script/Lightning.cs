@@ -8,6 +8,7 @@ public class Lightning : MonoBehaviour
     private Light light;
 
     public float intensity;
+    public float defIntensity;
 
     public float minTime;
     public float maxTime;
@@ -34,7 +35,7 @@ public class Lightning : MonoBehaviour
     {
         
         light = GetComponent<Light>();
-        light.intensity = 0;
+        defIntensity = light.intensity;
 
         _flashAvail = true;
 
@@ -61,9 +62,9 @@ public class Lightning : MonoBehaviour
 
         _xPos = Random.Range(-1, 1);
         _yPos = Random.Range(-1, 1);
-        var myDir = new Vector3(_xPos, transform.position.y, _yPos);
+        var myDir = new Vector3(_xPos, 0, _yPos);
 
-        _dir = transform.position + (myDir * (_thunderTime * distanceStep));
+        _dir = center.transform.position + (myDir * (_thunderTime * distanceStep));
 
         var savedNextTime = _nextTime;
         var savedThunderTime = _thunderTime;
@@ -75,7 +76,7 @@ public class Lightning : MonoBehaviour
 
         yield return new WaitForSeconds(flashTime);
 
-        light.intensity = 0;
+        light.intensity = defIntensity;
 
         yield return new WaitForSeconds(flashTime_between);
 
@@ -83,7 +84,7 @@ public class Lightning : MonoBehaviour
 
         yield return new WaitForSeconds(flashTime);
 
-        light.intensity = 0;
+        light.intensity = defIntensity;
 
         _flashAvail = true;
 
