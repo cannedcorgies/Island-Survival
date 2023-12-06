@@ -8,12 +8,13 @@ public class SpawnRandomObjects : MonoBehaviour
     public int maxNumberOfObjects = 6;
     public Terrain terrain;
     public float aboveGroundOffset = 1.5f; // Adjust this value to set the height above the terrain
+    public Transform objectPool; // Reference to the empty GameObject for object pooling
 
     void Start()
     {
-        if (objectPrefabs == null || objectPrefabs.Length == 0 || terrain == null)
+        if (objectPrefabs == null || objectPrefabs.Length == 0 || terrain == null || objectPool == null)
         {
-            Debug.LogError("Prefab array or Terrain not assigned!");
+            Debug.LogError("Prefab array, Terrain, or ObjectPool not assigned!");
             return;
         }
 
@@ -39,8 +40,11 @@ public class SpawnRandomObjects : MonoBehaviour
             // Randomly select an object from the array of prefabs
             GameObject selectedPrefab = objectPrefabs[Random.Range(0, objectPrefabs.Length)];
 
-            Instantiate(selectedPrefab, spawnPos, Quaternion.identity);
+            // Instantiate the object as a child of the objectPool GameObject
+            GameObject newObj = Instantiate(selectedPrefab, spawnPos, Quaternion.identity, objectPool);
+
+            // Ensure the object is upright
+            newObj.transform.rotation = Quaternion.Euler(-90f, Random.Range(0f, 360f), 0f);
         }
     }
 }
-
