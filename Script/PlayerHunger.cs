@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerHunger : MonoBehaviour
 {
+    public bool dead;
+
     public float maxHunger = 100f;
     public float currentHunger;
     public float hungerDecreaseRate = 1f;
@@ -16,6 +18,9 @@ public class PlayerHunger : MonoBehaviour
 
     void Start()
     {
+
+        dead = false;
+
         currentHunger = maxHunger;
         InvokeRepeating("DecreaseHunger", 1f, 1f);
     }
@@ -25,6 +30,8 @@ public class PlayerHunger : MonoBehaviour
         if (currentHunger <= 0f)
         {
             Debug.Log("Game Over - Starved!");
+            Time.timeScale = 0;
+            dead = true;
         }
 
         UpdateHungerUI();
