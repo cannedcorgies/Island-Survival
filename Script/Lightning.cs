@@ -64,7 +64,7 @@ public class Lightning : MonoBehaviour
         _yPos = Random.Range(-1, 1);
         var myDir = new Vector3(_xPos, 0, _yPos);
 
-        _dir = center.transform.position + (myDir * (_thunderTime * distanceStep));
+        _dir = (myDir * (_thunderTime * distanceStep));
 
         var savedNextTime = _nextTime;
         var savedThunderTime = _thunderTime;
@@ -90,7 +90,7 @@ public class Lightning : MonoBehaviour
 
         yield return new WaitForSeconds(savedThunderTime);
 
-        AudioSource.PlayClipAtPoint(thunder, savedDir);
+        AudioSource.PlayClipAtPoint(thunder, savedDir + center.transform.position);
 
     }
 

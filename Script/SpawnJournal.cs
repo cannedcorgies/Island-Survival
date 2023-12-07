@@ -8,12 +8,13 @@ public class SpawnJournal : MonoBehaviour
     public int numberOfJournals = 10;
     public Terrain terrain;
     public float aboveGroundOffset = 1.5f; // Adjust this value to set the height above the terrain
+    public Transform journalPool; // Reference to the empty GameObject for journal pooling
 
     void Start()
     {
-        if (journalPrefab == null || terrain == null)
+        if (journalPrefab == null || terrain == null || journalPool == null)
         {
-            Debug.LogError("Prefab or Terrain not assigned!");
+            Debug.LogError("Prefab, Terrain, or JournalPool not assigned!");
             return;
         }
 
@@ -36,7 +37,13 @@ public class SpawnJournal : MonoBehaviour
             // Adjust Y position to place the journal above the terrain
             Vector3 spawnPos = new Vector3(randPos.x, terrainHeight + aboveGroundOffset, randPos.z);
 
-            Instantiate(journalPrefab, spawnPos, Quaternion.identity);
+            // Instantiate the journal as a child of the journalPool GameObject
+            GameObject newJournal = Instantiate(journalPrefab, spawnPos, Quaternion.identity, journalPool);
+
+            // Ensure the journal is upright by setting rotation directly
+            newJournal.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
         }
     }
+
+
 }
