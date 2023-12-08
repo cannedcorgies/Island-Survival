@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class OpenJournal : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject Panel;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Update(){
+        bool isActive = Panel.activeSelf;
+        if(Panel != null && Input.GetKeyDown(KeyCode.F) && !isActive){
+            Time.timeScale = 0; 
+            Panel.SetActive(true);
+        }
+        if(Panel != null && Input.GetKeyDown(KeyCode.Return) && isActive){
+            Panel.SetActive(false);
+            Time.timeScale = 1; 
+
+        }
     }
 }
